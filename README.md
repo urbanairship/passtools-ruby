@@ -1,7 +1,7 @@
-# Passtools
+# PassTools
 
-Simple ruby wrapper for the Passtools API. API documentation can be
-found at the main [Passtools API wiki](https://github.com/tello/passtools-api/wiki/Methods)
+Simple ruby wrapper for the PassTools API. API documentation can be
+found at the main [PassTools API wiki](https://github.com/tello/passtools-api/wiki/Methods)
 
 ## Installation
 
@@ -69,7 +69,7 @@ configuration value.  Passes are named 'PassToolsPass.pkpass'
 
 ## Example Code
 
-Refer to the [Passtools API wiki](https://github.com/tello/passtools-api/wiki/Methods) for more information about the data returned. Generally you are most likely to be interested in data from the fieldsModel key of the Template detail data.   
+Refer to the [PassTools API wiki](https://github.com/tello/passtools-api/wiki/Methods) for more information about the data returned. Generally you are most likely to be interested in data from the fieldsModel key of the Template detail data.   
 
 Assuming you had a template with id 5 that returned the following from
 Passtools::Template.show(5)["fieldsModel"]

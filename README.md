@@ -1,7 +1,9 @@
 # PassTools
 
-Simple ruby wrapper for the PassTools API. API documentation can be
-found at the main [PassTools API wiki](https://github.com/tello/passtools-api/wiki/Methods)
+* Simple ruby wrapper for the PassTools API. 
+* API documentation can be found at the main [PassTools API wiki](https://github.com/tello/passtools-api/wiki/Methods)
+* Indexed documentation for the Ruby SDK is available at [http://tello.github.com/passtools-ruby/](http://tello.github.com/passtools-ruby/).
+
 
 ## Installation
 

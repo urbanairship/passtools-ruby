@@ -13,11 +13,13 @@ module Passtools
   class << self
     attr_accessor :api_key, :url, :download_dir
   end
+
   # Configure through hash
   def self.configure(opts = {})
     opts.each {|k,v| instance_variable_set("@#{k}",v) }
   end
 
+  # Configure with yaml file
   def self.configure_from_file(pathname)
     config = YAML::load(IO.read(pathname))
     configure(config)

@@ -28,7 +28,7 @@ describe 'Pass' do
     stub = stub_get("http://foobar.com/pass/55/download", 'contents of pass')
 
     Passtools::Pass.download(55)
-    File.open("PassToolsPass.pkpass", 'r').read.should == "contents of pass"
+    File.open("PassToolsPass.pkpass", 'r').read.should == "\"contents of pass\""
   end
 
   it "calls Passtools API to create new Pass" do
@@ -66,4 +66,57 @@ describe 'Pass' do
     expect {Passtools::Pass.list}.to raise_error(RuntimeError, /You must configure api_key before calling/)
   end
 
+  context "The Pass instance" do
+    context 'when built from succesful api call' do
+      before(:all) do
+        Passtools.configure(:url => 'http://foobar.com',
+                        :api_key => 'i_am_an_api_key')
+        @data = {"id" => 10,
+                 "templateId" => 55,
+                 "passFields" => {"first_name" => {"value" => "first", "required" => false},
+                                  "last_name" => {"value" => "last", "required" => true}}
+               }
+        stub = stub_get("http://foobar.com/pass/10",@data)
+        @pass = Passtools::Pass.build_from_current(10)
+      end
+
+      it "should be valid" do
+        @pass.valid?.should be_true
+      end
+
+      it "should return id" do
+        @pass.id.should == 10 
+      end
+
+      it "should return template id" do
+        @pass.template_id.should == 55 
+      end
+
+      it "should have read accessor for field name data" do
+        @pass.first_name.should ==  {"value" => "first", "required" => false}
+      end 
+
+      it "should have write accessor for field name" do
+        @pass.last_name = {"value" => "last_name", "required" => false}
+        @pass.last_name.should == {"value" => "last_name", "required" => false}
+      end 
+
+    end
+    context "when built from failed api call" do
+
+      it "should capture error information" do
+        stub_error("http://foobar.com/pass/10", 400)
+        @pass = Passtools::Pass.build_from_current(10)
+        @pass.raw_data['message'].should == "400 Bad Request"
+      end
+
+      it "should not be valid" do
+        stub_error("http://foobar.com/pass/10", 400)
+        @pass = Passtools::Pass.build_from_current(10)
+        @pass.valid?.should be_false
+      end
+
+    end
+  end
+ 
 end

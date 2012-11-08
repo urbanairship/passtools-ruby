@@ -103,7 +103,44 @@ Passtools::Pass.create(5, data)
 You could use the same hash with the update call to edit values in an
 existing Pass based on the same template.  
 
+## Using utility objects
 
+There are some additional methods wrapping the data returned and
+creating an instantiated object that provides some methods for
+convenience
+
+There are three constructors:
+
+`Passtools::Template.build_from_current(template_id)`
+
+returns a Template instance that has read only accessors for the raw
+data, id, field names, and a field data hash that can be used for Pass 
+creation.
+
+`Passtools::Pass.build_from_current(pass_id)`
+
+returns a Pass instance that has read only accessors for id and
+template id. It also has read/write accessors for the raw data
+returned and each of the fields.  Changes to either the raw data or the
+fields can be persisted with the #update method. 
+
+`Passtools::Pass.build_from_template(@template_instance)`
+
+returns a templated Pass instance that has the same accessors as above.
+This instance can be persisted with the #create method. Once it
+persisted, further changes must be persisted with the #update method
+
+## Usage 
+
+Given the same example as above you could:
+
+```
+template = Passtools::Template.build_from_current(5)
+pass = Passtools::Pass.build_from_template(template)
+pass.first_name['value'] = 'Abraham'
+pass.last_name['value] = 'Lincoln'
+pass.create
+```
 
 ## Contributing
 

@@ -1,6 +1,7 @@
 module Passtools
   class Pass
     extend Request
+    attr_accessor :raw_data
 
     def self.list
       get("/pass") 
@@ -28,6 +29,57 @@ module Passtools
       download_file("/pass/#{pass_id}/download", 'PassToolsPass.pkpass')
     end
 
-  end
+    def self.build_from_current(pass_id)
+      begin
+        response = show(pass_id)
+        self.new(response)
+      rescue RestClient::Exception => e
+        data = MultiJson.load(e.response)
+        data['message'] = e.message
+        new(data)
+      end
+    end
 
+    def self.build_from_template(template)
+      @raw_data = {}
+      @raw_data['templateId'] = template.id
+      @raw_data['passFields'] = template.fields
+      self.new(@raw_data)
+    end
+
+    def initialize(raw_data)
+      @raw_data = raw_data
+      fields = Array(@raw_data['passFields'])
+      fields.each do |k,v|
+        # self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
+        define_singleton_method  k, proc{ @raw_data["passFields"][k.to_s] }
+        define_singleton_method  "#{k}=", proc{ |v| @raw_data["passFields"][k.to_s] = v}
+      end
+    end
+
+    def id
+      @raw_data["id"]
+    end
+
+    def template_id
+      @raw_data["templateId"]
+    end
+
+    def valid?
+      @raw_data.has_key?('id')
+    end
+
+    def create
+      return false if self.id
+      response = self.class.create(template_id, @raw_data["passFields"])
+      new_id = response['id']
+      self.raw_data = response if new_id
+    end
+
+    def update 
+      return false unless self.id
+      self.class.update(id, @raw_data["passFields"])
+    end
+
+  end
 end

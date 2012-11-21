@@ -4,7 +4,7 @@ module Passtools
     attr_accessor :raw_data
 
     def self.list
-      get("/pass") 
+      get("/pass")
     end
 
     def self.list_by_template(template_id)
@@ -14,7 +14,7 @@ module Passtools
     def self.show(pass_id, params = {})
       get("/pass/#{pass_id}", params)
     end
-    
+
     def self.create(template_id,data)
       json = MultiJson.dump(data)
       post("/pass/#{template_id}", {:json => json } )
@@ -27,6 +27,14 @@ module Passtools
 
     def self.download(pass_id)
       download_file("/pass/#{pass_id}/download", 'PassToolsPass.pkpass')
+    end
+
+    def self.push(pass_id)
+      put("/pass/#{pass_id}/push")
+    end
+
+    def self.delete_pass(pass_id)
+      delete("/pass/#{pass_id}")
     end
 
     def self.build_from_current(pass_id)
@@ -76,7 +84,7 @@ module Passtools
       self.raw_data = response if new_id
     end
 
-    def update 
+    def update
       return false unless self.id
       self.class.update(id, @raw_data["passFields"])
     end

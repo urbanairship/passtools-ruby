@@ -45,6 +45,20 @@ describe 'Pass' do
     stub.should have_been_requested
   end
 
+  it "calls Passtools API to push Pass" do
+    stub = stub_write(:put, "http://foobar.com/pass/55/push")
+
+    Passtools::Pass.push(55)
+    stub.should have_been_requested
+  end
+
+  it "calls Passtools API to delete Pass" do
+    stub = stub_delete("http://foobar.com/pass/55" )
+
+    Passtools::Pass.delete_pass(55)
+    stub.should have_been_requested
+  end
+
   it "raises descriptive error if directory does not exist when downloading" do
     Passtools.configure(:download_dir => "/asdfasdfasfd")
     expect {Passtools::Pass.download(55)}.to raise_error(RuntimeError, /Download directory is not defined or does not exist/)

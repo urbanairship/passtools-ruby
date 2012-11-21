@@ -31,6 +31,13 @@ module Passtools
       MultiJson.load(response)
     end
 
+    def delete(path, params = {})
+      url = construct_url(path)
+      params.merge!(:api_key => Passtools.api_key )
+      response = RestClient.delete(url, :params => params)
+      MultiJson.load(response)
+    end
+
     def construct_url(path)
       raise "You must configure API url before calling" if Passtools.url.to_s.empty?
       Passtools.url + path

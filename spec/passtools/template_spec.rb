@@ -21,6 +21,13 @@ describe 'Template' do
     stub.should have_been_requested
   end
 
+  it "calls Passtools API to delete template" do
+    stub = stub_delete("http://foobar.com/template/55" )
+
+    Passtools::Template.delete_template(55)
+    stub.should have_been_requested
+  end
+
   context "The Template instance" do
     context 'when built from succesful api call' do
       before(:all) do

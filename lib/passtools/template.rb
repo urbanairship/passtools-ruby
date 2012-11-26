@@ -11,6 +11,10 @@ module Passtools
       get("/template/#{template_id}")
     end
 
+    def self.delete_template(template_id)
+      delete("/template/#{template_id}")
+    end
+
     def self.build_from_current(template_id)
       begin
         response = show(template_id)

@@ -89,5 +89,17 @@ module Passtools
       self.class.update(id, @raw_data["passFields"])
     end
 
+    def push
+      return false unless self.id
+      self.class.push(id)
+    end
+
+    def delete
+      return false unless self.id
+      response = self.class.delete_pass(id)
+      self.raw_data['id'] = nil if response['Status'] == 'Deleted'
+      response
+    end
+
   end
 end

@@ -44,15 +44,24 @@ module Passtools
       fetch_from_raw('fieldsModel')
     end
 
+    def delete
+      return false unless self.id
+      response = self.class.delete_pass(id)
+      self.raw_data['id'] = nil if response['Status'] == 'Deleted'
+      response
+    end
+
+    def valid?
+      @raw_data.has_key?('fieldsModel')
+    end
+
+    protected 
+
     def fetch_from_raw(*args)
       data = @raw_data
       res = nil
       args.each { |a| data = data.fetch(a, {}); res = data }
       res
-    end
-
-    def valid?
-      @raw_data.has_key?('fieldsModel')
     end
 
   end

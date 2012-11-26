@@ -3,8 +3,8 @@ module Passtools
     extend Request
     attr_accessor :raw_data
 
-    def self.list
-      get("/template/headers")
+    def self.list(params={})
+      get("/template/headers", params)
     end
 
     def self.show(template_id)

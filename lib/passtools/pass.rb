@@ -11,8 +11,8 @@ module Passtools
       #TODO not implemented in API yet
     end
 
-    def self.show(pass_id)
-      get("/pass/#{pass_id}")
+    def self.show(pass_id, params = {})
+      get("/pass/#{pass_id}", params)
     end
     
     def self.create(template_id,data)

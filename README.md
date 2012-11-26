@@ -47,6 +47,10 @@ Returns all templates associated with user specified by the api_key
 
 Returns detail information for individual template
 
+`Passtools::Template.delete(template_id)`
+
+Deletes a template from the user's account
+
 `Passtools::Pass.list`
 
 Returns list of all Passes associated with user
@@ -68,6 +72,14 @@ Updates pass data
 
 Downloads Pass to the directory named by the 'download_dir'
 configuration value.  Passes are named 'PassToolsPass.pkpass'
+
+`Passtools::Pass.delete(pass_id)`
+
+Delete pass from user's account
+
+`Passtools::Pass.push(pass_id)`
+
+Push pass changes to all devices that have the pass installed
 
 ## Example Code
 
@@ -129,6 +141,9 @@ fields can be persisted with the #update method.
 returns a templated Pass instance that has the same accessors as above.
 This instance can be persisted with the #create method. Once it
 persisted, further changes must be persisted with the #update method
+
+Each Pass or Template instance has access to the API methods that make sense
+for an single object(eg. create, update, push, delete). 
 
 ## Usage 
 

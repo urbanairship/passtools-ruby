@@ -55,7 +55,7 @@ describe 'Pass' do
   it "calls Passtools API to delete Pass" do
     stub = stub_delete("http://foobar.com/pass/55" )
 
-    Passtools::Pass.delete_pass(55)
+    Passtools::Pass.delete(55)
     stub.should have_been_requested
   end
 

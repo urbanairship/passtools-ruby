@@ -31,7 +31,7 @@ module Passtools
       MultiJson.load(response)
     end
 
-    def delete(path, params = {})
+    def delete_request(path, params = {})
       url = construct_url(path)
       params.merge!(:api_key => Passtools.api_key )
       response = RestClient.delete(url, :params => params)

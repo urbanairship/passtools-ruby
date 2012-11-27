@@ -24,7 +24,7 @@ describe 'Template' do
   it "calls Passtools API to delete template" do
     stub = stub_delete("http://foobar.com/template/55" )
 
-    Passtools::Template.delete_template(55)
+    Passtools::Template.delete(55)
     stub.should have_been_requested
   end
 

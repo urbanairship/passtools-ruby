@@ -11,8 +11,8 @@ module Passtools
       get("/template/#{template_id}")
     end
 
-    def self.delete_template(template_id)
-      delete("/template/#{template_id}")
+    def self.delete(template_id)
+      delete_request("/template/#{template_id}")
     end
 
     def self.build_from_current(template_id)

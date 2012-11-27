@@ -33,8 +33,8 @@ module Passtools
       put("/pass/#{pass_id}/push")
     end
 
-    def self.delete_pass(pass_id)
-      delete("/pass/#{pass_id}")
+    def self.delete(pass_id)
+      delete_request("/pass/#{pass_id}")
     end
 
     def self.build_from_current(pass_id)
@@ -96,7 +96,7 @@ module Passtools
 
     def delete
       return false unless self.id
-      response = self.class.delete_pass(id)
+      response = self.class.delete(id)
       self.raw_data['id'] = nil if response['Status'] == 'Deleted'
       response
     end

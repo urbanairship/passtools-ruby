@@ -14,7 +14,7 @@ module Passtools
       url = construct_url(path)
       params = {:api_key => Passtools.api_key}
       response = RestClient.get(url, headers.merge(:params => params))
-      File.open(filepath.join(filename), 'w') {|f| f.write(response) }
+      File.open(filepath.join(filename), 'w:ascii-8bit') {|f| f.write(response) }
     end
 
     def post(path, params = {})

@@ -4,7 +4,7 @@ module Passtools
     def get(path, params = {})
       url = construct_url(path)
       params.merge!(:api_key => Passtools.api_key)
-      response = RestClient.get(url, :params => params)
+      response = RestClient.get(url, headers.merge(:params => params))
       MultiJson.load(response)
     end
 
@@ -13,34 +13,39 @@ module Passtools
       raise "Download directory is not defined or does not exist" unless filepath.exist?
       url = construct_url(path)
       params = {:api_key => Passtools.api_key}
-      response = RestClient.get(url, :params => params)
+      response = RestClient.get(url, headers.merge(:params => params))
       File.open(filepath.join(filename), 'w') {|f| f.write(response) }
     end
 
     def post(path, params = {})
       url = construct_url(path)
       params.merge!(:api_key => Passtools.api_key )
-      response = RestClient.post(url, params, :multipart => true )
+      response = RestClient.post(url, params, headers.merge(:multipart => true) )
       MultiJson.load(response)
     end
 
     def put(path, params = {})
       url = construct_url(path)
       params.merge!(:api_key => Passtools.api_key )
-      response = RestClient.put(url, params, :multipart => true )
+      response = RestClient.put(url, params, headers.merge(:multipart => true) )
       MultiJson.load(response)
     end
 
     def delete_request(path, params = {})
       url = construct_url(path)
       params.merge!(:api_key => Passtools.api_key )
-      response = RestClient.delete(url, :params => params)
+      response = RestClient.delete(url, headers.merge(:params => params))
       MultiJson.load(response)
     end
 
     def construct_url(path)
       raise "You must configure API url before calling" if Passtools.url.to_s.empty?
       Passtools.url + path
+    end
+
+    def headers
+      { :user_agent => "passtools-gem-#{Passtools::VERSION}",
+        :accept => :json }
     end
 
   end

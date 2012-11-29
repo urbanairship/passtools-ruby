@@ -101,5 +101,10 @@ module Passtools
       response
     end
 
+    def download
+      return false unless self.id
+      self.class.download(self.id)
+    end
+
   end
 end

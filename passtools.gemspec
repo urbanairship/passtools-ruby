@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Passtools::VERSION
 
   gem.add_dependency 'rest-client',  "~> 1.6.7"
-  gem.add_dependency 'multi_json', "~> 1.3.6"
+  gem.add_dependency 'multi_json', "~> 1.5"
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'webmock'

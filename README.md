@@ -7,12 +7,13 @@
 
 ## Installation
 
-Via rubygems.org:
+### Via rubygems.org:
 
 `$ gem install passtools`
 
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- or - 
 
-Using Bundler:
+### Using Bundler:
 
 Add this line to your application's Gemfile:
 
@@ -37,7 +38,7 @@ You can also configure individual values directly via accessors:
 
 `Passtools.api_key = "i_am_an_api_key"`
 
-Once configured, there are 7 methods available to interact with the Passtools api. Returned JSON is parsed to provide Ruby data objects. 
+Once configured, there are 9 methods available to interact with the Passtools api. Returned JSON is parsed to provide Ruby data objects. 
 
 `Passtools::Template.list`
 
@@ -63,6 +64,22 @@ Returns detail information for individual pass
 
 Creates a new Pass based on specified template. Data is a nested hash containing data for
 fields, see data returned from the Pass.show call for structure. 
+
+
+`Passtools::Pass.add_locations(pass_id, data)`
+
+Add up to 10 'Relevant Locations' to pass. Data is a list containing data for
+locations, for example:
+
+`data = [{"latitude"=>37.4471107, "longitude"=>-122.16206219999998,
+         	"streetAddress1"=>"408 Florence St", "streetAddress2"=>"",
+            "city"=>"Palo Alto", "region"=>"CA", "regionCode"=>"94301",
+            "country"=>"US", "relevantText"=>"Palo Alto Office!"}]` 
+
+
+`Passtools::Pass.delete_location(pass_id, location_id)`
+
+Delete one 'Relevant Location' from pass. Location to be deleted should be specified by ID, available in data returned from the Psss.show call. 
 
 `Passtools::Pass.update(pass_id, data)`
 

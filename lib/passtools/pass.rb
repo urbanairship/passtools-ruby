@@ -25,6 +25,15 @@ module Passtools
       put("/pass/#{pass_id}", { :json => json } )
     end
 
+    def self.add_locations(pass_id,location_list)
+      json = MultiJson.dump(location_list)
+      post("/pass/#{pass_id}/locations", { :json => json } )
+    end
+
+    def self.delete_location(pass_id,location_id)
+      delete_request("/pass/#{pass_id}/location/#{location_id}" )
+    end
+
     def self.download(pass_id)
       download_file("/pass/#{pass_id}/download", 'PassToolsPass.pkpass')
     end

@@ -45,7 +45,8 @@ module Passtools
 
     def headers
       { :user_agent => "passtools-gem-#{Passtools::VERSION}",
-        :accept => :json }
+        :accept => :json,
+        "Api-Revision" => 11 }
     end
 
   end

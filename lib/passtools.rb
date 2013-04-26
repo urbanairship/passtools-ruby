@@ -7,6 +7,7 @@ require 'yaml'
 require 'passtools/request'
 require 'passtools/template'
 require 'passtools/pass'
+require 'passtools/tag'
 
 module Passtools
 

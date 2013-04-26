@@ -11,39 +11,64 @@ module Passtools
       #TODO not implemented in API yet
     end
 
-    def self.show(pass_id, params = {})
-      get("/pass/#{pass_id}", params)
+    def self.show(pass_id, external=false)
+      pass_id = "id/#{pass_id}" if external
+      get("/pass/#{pass_id}")
     end
 
-    def self.create(template_id,data)
+    def self.create(template_id, data, external_id=nil)
       json = MultiJson.dump(data)
-      post("/pass/#{template_id}", {:json => json } )
+      url = "/pass/#{template_id}"
+      url += "/id/#{external_id}" if external_id
+      post(url, {:json => json } )
     end
 
-    def self.update(pass_id,data)
+    def self.update(pass_id, data, external=false)
       json = MultiJson.dump(data)
+      pass_id = "id/#{pass_id}" if external
       put("/pass/#{pass_id}", { :json => json } )
     end
 
-    def self.add_locations(pass_id,location_list)
+    def self.add_locations(pass_id, location_list, external=false)
       json = MultiJson.dump(location_list)
+      pass_id = "id/#{pass_id}" if external
       post("/pass/#{pass_id}/locations", { :json => json } )
     end
 
-    def self.delete_location(pass_id,location_id)
+    def self.delete_location(pass_id, location_id, external=false)
+      pass_id = "id/#{pass_id}" if external
       delete_request("/pass/#{pass_id}/location/#{location_id}" )
     end
 
-    def self.download(pass_id)
+    def self.download(pass_id,external=false)
+      pass_id = "id/#{pass_id}" if external
       download_file("/pass/#{pass_id}/download", 'PassToolsPass.pkpass')
     end
 
-    def self.push(pass_id)
+    def self.pass_json(pass_id, external=false)
+      pass_id = "id/#{pass_id}" if external
+      get("/pass/#{pass_id}/viewJSONPass")
+    end
+
+    def self.push(pass_id,external=false)
+      pass_id = "id/#{pass_id}" if external
       put("/pass/#{pass_id}/push")
     end
 
-    def self.delete(pass_id)
+    def self.delete(pass_id,external=false)
+      pass_id = "id/#{pass_id}" if external
       delete_request("/pass/#{pass_id}")
+    end
+
+    def self.list_tags(pass_id, external=false)
+      pass_id = "id/#{pass_id}" if external
+      get("/pass/#{pass_id}/tags")
+    end
+
+    def self.add_tags(pass_id, tags, external=false)
+      json = MultiJson.dump({ 'tags' => Array(tags)})
+      pass_id = "id/#{pass_id}" if external
+      put("/pass/#{pass_id}/tags", { :json => json } )
     end
 
     def self.build_from_current(pass_id)

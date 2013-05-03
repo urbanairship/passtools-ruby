@@ -52,21 +52,28 @@ Returns detail information for individual template
 
 Deletes a template from the user's account
 
+### Using Passes:
+As indicated most Pass calls also take an optional external_id_flag
+boolean arguement. If set to true, the pass_id is considered to be an
+external_id when retrieving or setting information. The create method is
+slightly different as this is where the external_id is set. 
+
 `Passtools::Pass.list`
 
 Returns list of all Passes associated with user
 
-`Passtools::Pass.show(pass_id)`
+`Passtools::Pass.show(pass_id, external_id_flag)`
 
 Returns detail information for individual pass
 
-`Passtools::Pass.create(template_id, data)`
+`Passtools::Pass.create(template_id, data, external_id)`
 
 Creates a new Pass based on specified template. Data is a nested hash containing data for
-fields, see data returned from the Pass.show call for structure. 
+fields, see data returned from the Pass.show call for structure. If the
+external_id parameter is present, this will be added to the Pass.
 
 
-`Passtools::Pass.add_locations(pass_id, data)`
+`Passtools::Pass.add_locations(pass_id, data, external_id_flag)`
 
 Add up to 10 'Relevant Locations' to pass. Data is a list containing data for
 locations, for example:
@@ -77,7 +84,7 @@ locations, for example:
             "country"=>"US", "relevantText"=>"Palo Alto Office!"}]` 
 
 
-`Passtools::Pass.delete_location(pass_id, location_id)`
+`Passtools::Pass.delete_location(pass_id, location_id, external_id_flag)`
 
 Delete one 'Relevant Location' from pass. Location to be deleted should be specified by ID, available in data returned from the Psss.show call. 
 
@@ -85,16 +92,16 @@ Delete one 'Relevant Location' from pass. Location to be deleted should be speci
 
 Updates pass data
 
-`Passtools::Pass.download(pass_id)`
+`Passtools::Pass.download(pass_id, external_id_flag)`
 
 Downloads Pass to the directory named by the 'download_dir'
 configuration value.  Passes are named 'PassToolsPass.pkpass'
 
-`Passtools::Pass.delete(pass_id)`
+`Passtools::Pass.delete(pass_id, external_id_flag)`
 
 Delete pass from user's account
 
-`Passtools::Pass.push(pass_id)`
+`Passtools::Pass.push(pass_id, external_id_flag)`
 
 Push pass changes to all devices that have the pass installed
 

@@ -12,63 +12,97 @@ module Passtools
     end
 
     def self.show(pass_id, external=false)
-      pass_id = "id/#{pass_id}" if external
-      get("/pass/#{pass_id}")
+      url = build_url(__method__, pass_id, external)
+      get(url)
     end
 
     def self.create(template_id, data, external_id=nil)
       json = MultiJson.dump(data)
-      url = "/pass/#{template_id}"
-      url += "/id/#{external_id}" if external_id
+      url = build_url(__method__, [template_id, external_id], !external_id.nil?)
       post(url, {:json => json } )
     end
 
     def self.update(pass_id, data, external=false)
       json = MultiJson.dump(data)
-      pass_id = "id/#{pass_id}" if external
-      put("/pass/#{pass_id}", { :json => json } )
+      url = build_url(__method__, pass_id, external)
+      put(url, { :json => json } )
     end
 
     def self.add_locations(pass_id, location_list, external=false)
       json = MultiJson.dump(location_list)
-      pass_id = "id/#{pass_id}" if external
-      post("/pass/#{pass_id}/locations", { :json => json } )
+      url = build_url(__method__, pass_id, external)
+      post(url, { :json => json } )
     end
 
     def self.delete_location(pass_id, location_id, external=false)
-      pass_id = "id/#{pass_id}" if external
-      delete_request("/pass/#{pass_id}/location/#{location_id}" )
+      url = build_url(__method__, [pass_id, location_id] , external)
+      delete_request(url)
     end
 
     def self.download(pass_id,external=false)
-      pass_id = "id/#{pass_id}" if external
-      download_file("/pass/#{pass_id}/download", 'PassToolsPass.pkpass')
+      url = build_url(__method__, pass_id, external)
+      download_file(url, 'PassToolsPass.pkpass')
     end
 
     def self.pass_json(pass_id, external=false)
-      pass_id = "id/#{pass_id}" if external
-      get("/pass/#{pass_id}/viewJSONPass")
+      url = build_url(__method__, pass_id, external)
+      get(url)
     end
 
     def self.push(pass_id,external=false)
-      pass_id = "id/#{pass_id}" if external
-      put("/pass/#{pass_id}/push")
+      url = build_url(__method__, pass_id, external)
+      put(url)
     end
 
     def self.delete(pass_id,external=false)
-      pass_id = "id/#{pass_id}" if external
-      delete_request("/pass/#{pass_id}")
+      url = build_url(__method__, pass_id, external)
+      delete_request(url)
     end
 
     def self.list_tags(pass_id, external=false)
-      pass_id = "id/#{pass_id}" if external
-      get("/pass/#{pass_id}/tags")
+      url = build_url(__method__, pass_id, external)
+      get(url)
     end
 
     def self.add_tags(pass_id, tags, external=false)
       json = MultiJson.dump({ 'tags' => Array(tags)})
-      pass_id = "id/#{pass_id}" if external
-      put("/pass/#{pass_id}/tags", { :json => json } )
+      url = build_url(__method__, pass_id, external)
+      put(url, { :json => json } )
+    end
+
+    def self.build_url(method, id, external)
+      key = url_key(method, external)
+      url_hash[key] % id
+    end
+
+    def self.url_hash
+      { :create                    => "/pass/%s",
+        :create_external           => "/pass/%s/id/%s",
+        :show                      => "/pass/%s",
+        :show_external             => "/pass/id/%s",
+        :update                    => "/pass/%s",
+        :update_external           => "/pass/id/%s",
+        :add_locations             => "/pass/%s/locations",
+        :add_locations_external    => "/pass/id/%s/locations",
+        :delete_location           => "/pass/%s/location/%s",
+        :delete_location_external  => "/pass/id/%s/location/%s",
+        :download                  => "/pass/%s/download",
+        :download_external         => "/pass/id/%s/download",
+        :pass_json                 => "/pass/%s/viewJSONPass",
+        :pass_json_external        => "/pass/id/%s/viewJSONPass",
+        :push                      => "/pass/%s/push",
+        :push_external             => "/pass/id/%s/push",
+        :delete                    => "/pass/%s",
+        :delete_external           => "/pass/id/%s",
+        :add_tags                  => "/pass/%s/tags",
+        :add_tags_external         => "/pass/id/%s/tags",
+        :list_tags                 => "/pass/%s/tags",
+        :list_tags_external        => "/pass/id/%s/tags"
+      }
+    end
+
+    def self.url_key(method, external)
+      external ? "#{method}_external".to_sym : method
     end
 
     def self.build_from_current(pass_id)
@@ -93,7 +127,6 @@ module Passtools
       @raw_data = raw_data
       fields = Array(@raw_data['passFields'])
       fields.each do |k,v|
-        # self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
         define_singleton_method  k, proc{ @raw_data["passFields"][k.to_s] }
         define_singleton_method  "#{k}=", proc{ |v| @raw_data["passFields"][k.to_s] = v}
       end

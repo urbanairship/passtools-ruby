@@ -1,3 +1,14 @@
+=begin
+    Method      Path                            Description
+    # GET         /                               list tags for this user
+    # GET         /{tag}/passes                   list passes on that tag
+    # PUT         /{tag}/passes                   update the passes on this tag
+    # DELETE      /{tag}                          Delete a tag and remove it from all of the passes it was associated with.
+    # DELETE      /{tag}/passes                   Remove a tag from all of its passes.
+    # DELETE      /{tag}/pass/{strPassId}         Remove the tag from the specified pass id.
+    # DELETE      /{tag}/pass/id/{externalId}     Remove a pass from a tag by it's external id.
+=end
+
 module Passtools
   class Tag
     extend Request

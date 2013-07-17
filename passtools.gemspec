@@ -2,8 +2,8 @@
 require File.expand_path('../lib/passtools/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["David Verba"]
-  gem.email         = ["david@halcyonengineering.com"]
+  gem.authors       = ["Urban Airship"]
+  gem.email         = ["help@urbanairsihp.com"]
   gem.description   = %q{Ruby wrapper to access the Passtools API}
   gem.summary       = %q{Passtools API gem}
   gem.homepage      = ""

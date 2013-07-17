@@ -48,7 +48,7 @@ describe 'Template' do
       end
 
       it "should return the correct field names" do
-        @template.field_names.should == ['first_name', 'last_name']
+        (@template.field_names == ['first_name', 'last_name'] or @template.field_names == ['last_name', 'first_name']).should be_true
       end
 
       it "should return the correct complete field data" do 

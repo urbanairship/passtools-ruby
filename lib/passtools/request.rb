@@ -14,26 +14,26 @@ module Passtools
       url = construct_url(path)
       params = {:api_key => Passtools.api_key}
       response = RestClient.get(url, headers.merge(:params => params))
-      File.open(filepath.join(filename), 'w:ascii-8bit') {|f| f.write(response) }
+      File.open(filepath.join(filename), 'w:ascii-8bit') { |f| f.write(response) }
     end
 
     def post(path, params = {})
       url = construct_url(path)
-      params.merge!(:api_key => Passtools.api_key )
-      response = RestClient.post(url, params, headers.merge(:multipart => true) )
+      params.merge!(:api_key => Passtools.api_key)
+      response = RestClient.post(url, params, headers.merge(:multipart => true))
       MultiJson.load(response)
     end
 
     def put(path, params = {})
       url = construct_url(path)
-      params.merge!(:api_key => Passtools.api_key )
-      response = RestClient.put(url, params, headers.merge(:multipart => true) )
+      params.merge!(:api_key => Passtools.api_key)
+      response = RestClient.put(url, params, headers.merge(:multipart => true))
       MultiJson.load(response)
     end
 
     def delete_request(path, params = {})
       url = construct_url(path)
-      params.merge!(:api_key => Passtools.api_key )
+      params.merge!(:api_key => Passtools.api_key)
       response = RestClient.delete(url, headers.merge(:params => params))
       MultiJson.load(response)
     end
@@ -44,9 +44,9 @@ module Passtools
     end
 
     def headers
-      { :user_agent => "passtools-gem-#{Passtools::VERSION}",
-        :accept => :json,
-        "Api-Revision" => 11 }
+      {:user_agent => "passtools-gem-#{Passtools::VERSION}",
+       :accept => :json,
+       "Api-Revision" => 1.2}
     end
 
   end

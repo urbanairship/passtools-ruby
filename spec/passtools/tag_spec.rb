@@ -21,7 +21,7 @@ describe 'Tag' do
     stub.should have_been_requested
   end
 
-  it "calls Passtools API to delete a location a tag" do
+  it "calls Passtools API to delete a tag" do
     stub = stub_delete("http://foobar.com/tag/foo" )
 
     Passtools::Tag.delete('foo')

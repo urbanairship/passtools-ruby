@@ -8,6 +8,7 @@ require 'passtools/request'
 require 'passtools/template'
 require 'passtools/pass'
 require 'passtools/tag'
+require 'passtools/project'
 
 module Passtools
 
@@ -32,6 +33,10 @@ module Passtools
 
   def self.api_key
     @api_key || raise("You must configure api_key before calling")
+  end
+
+  def self.download_dir
+    @download_dir || raise("You must configure download_dir before calling")
   end
 
 end

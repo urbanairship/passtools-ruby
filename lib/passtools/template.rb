@@ -58,9 +58,9 @@ module Passtools
     end
 
     def self.create_in_project(project_id, data, external_id = nil)
-        json = MultiJson.dump(data)
-        url = build_url(__method__, [project_id, external_id], !external_id.nil?)
-        post(url, {:json => json})
+      json = MultiJson.dump(data)
+      url = build_url(__method__, [project_id, external_id], !external_id.nil?)
+      post(url, {:json => json})
     end
 
     def initialize(raw_data)
@@ -137,6 +137,10 @@ module Passtools
           :delete_location => "/template/%s/location/%s",
           :delete_location_external => "/template/id/%s/location/%s"
       }
+    end
+
+    def self.url_key(method, external)
+      external ? "#{method}_external".to_sym : method
     end
 
   end

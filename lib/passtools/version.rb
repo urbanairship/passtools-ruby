@@ -1,3 +1,3 @@
 module Passtools
-  VERSION = "0.4.6"
+  VERSION = "1.2.0"
 end

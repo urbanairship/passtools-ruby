@@ -27,23 +27,27 @@ module Passtools
       get(build_url(__method__, project_id, external))
     end
 
-    def self.update(project_id, external = false)
+    def self.update(project_id, data, external = false)
       json = MultiJson.dump(data)
       url = build_url(__method__, project_id, external)
       put(url, {:json => json})
     end
 
     def self.delete(project_id, external = false)
-      delete_request(build_url(__method, project_id, external))
+      delete_request(build_url(__method__, project_id, external))
     end
 
-    def self.create(external_id)
+    def self.create(data, external_id = nil)
       json = MultiJson.dump(data)
-      url = build_url(__method__, external_id, !external_id.nil?)
+      if external_id
+        url = url_hash[:create_external] % external_id
+      else
+        url = url_hash[:create]
+      end
       post(url, {:json => json})
     end
 
-    def self.create_from_layout(layout_id)
+    def self.create_from_layout(layout_id, data)
       json = MultiJson.dump(data)
       url = build_url(__method__, layout_id, false)
       post(url, {:json => json})
@@ -53,7 +57,11 @@ module Passtools
 
     def self.build_url(method, id, external)
       key = url_key(method, external)
-      url_hash[key] % id
+      if id
+        url_hash[key] % id
+      else
+        url_hash[key]
+      end
     end
 
     def self.url_hash
@@ -68,6 +76,10 @@ module Passtools
           :update_external => '/project/id/%s',
           :create_from_layout => '/project/%s'
       }
+    end
+
+    def self.url_key(method, external)
+      external ? "#{method}_external".to_sym : method
     end
   end
 

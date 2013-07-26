@@ -48,14 +48,14 @@ describe 'Pass' do
   it "calls Passtools API to create new Pass" do
     stub = stub_write(:post, "http://foobar.com/pass/22", "{\"foo\":\"bar\"}" )
 
-    Passtools::Pass.create(22, {:foo => :bar })
+    Passtools::Pass.create(22, {:foo => 'bar' })
     stub.should have_been_requested
   end
 
   it "calls Passtools API to create new Pass and adds external id" do
     stub = stub_write(:post, "http://foobar.com/pass/22/id/foo", "{\"foo\":\"bar\"}" )
 
-    Passtools::Pass.create(22, {:foo => :bar }, 'foo')
+    Passtools::Pass.create(22, {:foo => 'bar' }, 'foo')
     stub.should have_been_requested
   end
 
@@ -63,14 +63,14 @@ describe 'Pass' do
   it "calls Passtools API to update new Pass" do
     stub = stub_write(:put, "http://foobar.com/pass/55", "{\"foo\":\"bar\"}" )
 
-    Passtools::Pass.update(55, {:foo => :bar })
+    Passtools::Pass.update(55, {:foo => 'bar' })
     stub.should have_been_requested
   end
 
   it "calls Passtools API to update new Pass using external id" do
     stub = stub_write(:put, "http://foobar.com/pass/id/foo", "{\"foo\":\"bar\"}" )
 
-    Passtools::Pass.update('foo', {:foo => :bar }, true)
+    Passtools::Pass.update('foo', {:foo => 'bar' }, true)
     stub.should have_been_requested
   end
 

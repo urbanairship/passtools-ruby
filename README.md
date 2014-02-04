@@ -27,8 +27,7 @@ And then execute:
 
 The gem must be configured before any calls can be successfully made. At the very least, the api_key is required and needs to be set. You can configure multiple values from a hash:
 
-`Passtools.configure(:api_key => 'i_am_an_api_key', :download_dir =
-"/tmp")`
+`Passtools.configure(:api_key => 'i_am_an_api_key', :download_dir => "/tmp")`
 
 or from a yaml file:
 
